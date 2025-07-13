@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   Button,
   Card,
@@ -12,9 +12,21 @@ import {
 import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import routes from '../services/clientRoutes.js'
+import { useAuth } from '../AuthContext.jsx'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import apiRoutes from '../services/route.js'
 
 const LoginPage = () => {
   const [loginError] = useState(null)
+  const { login, isAuth } = useAuth()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (isAuth) {
+      navigate(routes.root)
+    }
+  }, [isAuth, navigate])
 
   const LoginSchema = Yup.object().shape({
     username: Yup.string()
@@ -25,7 +37,26 @@ const LoginPage = () => {
       .required('login.errors.required'),
   })
 
-  const handleSubmit = () => console.log('Not Yet Implemented')
+  const handleSubmit = async ({ username, password }, { setSubmitting, setErrors }) => {
+    try {
+      const response = await axios.post(apiRoutes.loginPath(), { username, password })
+      const { token } = response.data
+      login(token, username)
+      navigate(routes.root)
+    }
+    catch (error) {
+      if (error.response?.status === 401) {
+        setErrors({ username: 'login.errorInvalid' })
+      }
+      else {
+        setErrors({ username: 'notifications.networkError' })
+      }
+      setLoginError(error.message)
+    }
+    finally {
+      setSubmitting(false)
+    }
+  }
 
   return (
     <Container fluid className="h-100 bg-light">
