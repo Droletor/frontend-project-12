@@ -1,5 +1,6 @@
 install:
 	npm ci
+	npm ci --prefix ./frontend
 
 lint:
 	npx eslint .
