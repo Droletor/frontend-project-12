@@ -13,6 +13,7 @@ import AddChannelModal from '../modals/AddChannel.jsx'
 import RemoveChannelModal from '../modals/RemoveChannel.jsx'
 import RenameChannelModal from '../modals/RenameChannel.jsx'
 import { useAuth } from '../AuthContext.jsx'
+import socket from '../services/initSocket.js'
 
 const ChatPage = () => {
   const dispatch = useDispatch()
@@ -30,6 +31,15 @@ const ChatPage = () => {
     dispatch(fetchChannels(headers))
     dispatch(fetchMessages(headers))
   }, [dispatch, token])
+
+  useEffect(() => {
+    socket.on('newMessage', (messageData) => {
+      dispatch(messagesActions.addMessage(messageData))
+    })
+    return () => {
+      socket.off('newMessage')
+    }
+  }, [dispatch])
 
   return (
     <div className="d-flex flex-column h-100">

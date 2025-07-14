@@ -16,6 +16,11 @@ export default defineConfig({
         target: 'http://localhost:5001',
         changeOrigin: true,
       },
+      '/socket.io': {
+        target: 'ws://localhost:5001',
+        ws: true,
+        rewriteWsOrigin: true,
+      },
     },
   },
   plugins: [react()],

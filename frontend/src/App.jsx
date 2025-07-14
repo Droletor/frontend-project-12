@@ -9,22 +9,20 @@ import { AuthProvider } from './AuthContext.jsx'
 import { Provider } from 'react-redux'
 import store from './store/store.js'
 
-function App() {
-  return (
-    <Provider store={store}>
-      <AuthProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path={routes.notFound} element={<Page404 />} />
-            <Route path={routes.login} element={<LoginPage />} />
-            <Route element={<ProtectedRoute />}>
-              <Route path={routes.root} element={<ChatPage />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </AuthProvider>
-    </Provider>
-  )
-}
+const App = ({ socket }) => (
+  <Provider store={store}>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path={routes.notFound} element={<Page404 />} />
+          <Route path={routes.login} element={<LoginPage />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path={routes.root} element={<ChatPage socket={socket} />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
+  </Provider>
+)
 
 export default App
