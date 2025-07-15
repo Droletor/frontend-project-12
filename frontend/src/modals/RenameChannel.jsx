@@ -9,6 +9,7 @@ import * as Yup from 'yup'
 import apiRoutes, { getAuthHeader } from '../services/route.js'
 import { channelsActions, selectAllChannels } from '../store/channelsSlice.js'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
 
 const RenameChannelModal = ({ show, handleClose, channel }) => {
   const { t } = useTranslation()
@@ -56,12 +57,12 @@ const RenameChannelModal = ({ show, handleClose, channel }) => {
         }),
       )
 
-      console.log(t('notifications.channelRenamed'))
+      toast.success(t('notifications.channelRenamed'))
       handleClose()
     }
     catch (err) {
       setErrors({ name: t('renameChannel.error') })
-      console.error(err)
+      toast.error(err)
     }
     finally {
       setSubmitting(false)

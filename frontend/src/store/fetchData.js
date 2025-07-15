@@ -2,6 +2,7 @@ import axios from 'axios'
 import apiRoutes from '../services/route.js'
 import { channelsActions } from './channelsSlice.js'
 import { messagesActions } from './messagesSlice.js'
+import { toast } from 'react-toastify'
 
 export const fetchChannels = headers => async (dispatch) => {
   try {
@@ -9,7 +10,7 @@ export const fetchChannels = headers => async (dispatch) => {
     dispatch(channelsActions.setChannels(data))
   }
   catch {
-    console.log('notifications.fetchError')
+    toast.error('notifications.fetchError')
   }
 }
 
@@ -19,6 +20,6 @@ export const fetchMessages = headers => async (dispatch) => {
     dispatch(messagesActions.setMessages(data))
   }
   catch {
-    console.log('notifications.fetchError')
+    toast.error('notifications.fetchError')
   }
 }

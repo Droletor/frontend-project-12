@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 import apiRoutes, { getAuthHeader } from '../services/route.js'
 import { channelsActions } from '../store/channelsSlice.js'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
 
 const RemoveChannelModal = ({ show, handleClose, channel }) => {
   const { t } = useTranslation()
@@ -19,11 +20,11 @@ const RemoveChannelModal = ({ show, handleClose, channel }) => {
       await axios.delete(apiRoutes.channelPath(channel.id), { headers })
       dispatch(channelsActions.removeChannel(channel.id))
 
-      console.log(t('notifications.channelRemoved'))
+      toast.success(t('notifications.channelRemoved'))
       handleClose()
     }
     catch (err) {
-      console.error(t('removeChannel.error'), err)
+      toast.error(t('removeChannel.error'), err)
     }
   }
 

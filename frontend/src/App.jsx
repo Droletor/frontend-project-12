@@ -9,6 +9,7 @@ import routes from './services/clientRoutes.js'
 import { AuthProvider } from './AuthContext.jsx'
 import { Provider } from 'react-redux'
 import store from './store/store.js'
+import { ToastContainer } from 'react-toastify'
 
 const App = ({ socket }) => (
   <Provider store={store}>
@@ -22,6 +23,7 @@ const App = ({ socket }) => (
             <Route path={routes.root} element={<ChatPage socket={socket} />} />
           </Route>
         </Routes>
+        <ToastContainer />
       </BrowserRouter>
     </AuthProvider>
   </Provider>

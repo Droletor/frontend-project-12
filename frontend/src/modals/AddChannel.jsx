@@ -17,6 +17,7 @@ import {
   selectAllChannels,
 } from '../store/channelsSlice.js'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
 
 const AddChannelModal = ({ show, handleClose }) => {
   const { t } = useTranslation()
@@ -58,12 +59,12 @@ const AddChannelModal = ({ show, handleClose }) => {
       dispatch(channelsActions.addChannel(data))
       dispatch(channelsActions.changeChannel(data.id))
 
-      console.log(t('notifications.channelCreated'))
+      toast.success(t('notifications.channelCreated'))
       handleClose()
     }
     catch (err) {
       setErrors({ name: t('addChannel.error') })
-      console.error(err)
+      toast.error(err)
     }
     finally {
       setSubmitting(false)
