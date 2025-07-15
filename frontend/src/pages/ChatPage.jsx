@@ -14,6 +14,7 @@ import RemoveChannelModal from '../modals/RemoveChannel.jsx'
 import RenameChannelModal from '../modals/RenameChannel.jsx'
 import { useAuth } from '../AuthContext.jsx'
 import socket from '../services/initSocket.js'
+import Header from '../components/Header.jsx'
 
 const ChatPage = () => {
   const dispatch = useDispatch()
@@ -43,7 +44,7 @@ const ChatPage = () => {
 
   return (
     <div className="d-flex flex-column h-100">
-
+      <Header />
       <div className="container h-100 my-4 overflow-hidden rounded shadow">
         <div className="row h-100 bg-white flex-md-row">
           <Channels />

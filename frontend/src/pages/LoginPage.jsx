@@ -16,6 +16,7 @@ import { useAuth } from '../AuthContext.jsx'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import apiRoutes from '../services/route.js'
+import Header from '../components/Header.jsx'
 
 const LoginPage = () => {
   const [loginError] = useState(null)
@@ -59,7 +60,8 @@ const LoginPage = () => {
   }
 
   return (
-    <Container fluid className="h-100 bg-light">
+    <Container fluid className="d-flex flex-column h-100 bg-light">
+      <Header />
       <Row className="justify-content-center align-items-center h-100">
         <Col xs={12} md={8} xxl={6}>
           <Card className="shadow-sm">

@@ -1,6 +1,7 @@
 const routes = {
   root: '/',
   login: '/login',
+  signup: '/signup',
   notFound: '*',
 }
 

@@ -1,0 +1,152 @@
+import axios from 'axios'
+import { Field, Form, Formik } from 'formik'
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  FloatingLabel,
+  Form as RBForm,
+  Row,
+} from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
+import * as Yup from 'yup'
+import apiRoutes from '../services/route.js'
+import { useAuth } from '../AuthContext.jsx'
+import routes from '../services/clientRoutes.js'
+import Header from '../components/Header.jsx'
+
+const SignupPage = () => {
+  const { login } = useAuth()
+  const navigate = useNavigate()
+
+  const SignupSchema = Yup.object().shape({
+    username: Yup.string()
+      .min(3, 'signup.errors.min3')
+      .max(20, 'signup.errors.max20')
+      .required('signup.errors.required'),
+    password: Yup.string()
+      .min(6, 'signup.errors.min6')
+      .required('signup.errors.required'),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref('password'), null], 'signup.errors.passwordsNotMatch')
+      .required('signup.errors.required'),
+  })
+
+  const handleSubmit = async (
+    { username, password },
+    { setSubmitting, setErrors },
+  ) => {
+    try {
+      const response = await axios.post(apiRoutes.signupPath(), {
+        username,
+        password,
+      })
+      const { token, username: registeredUser } = response.data
+      login(token, registeredUser)
+      navigate(routes.root)
+    }
+    catch (error) {
+      if (error.response?.status === 409) {
+        setErrors({ username: 'signup.errors.userExists' })
+      }
+      else {
+        setErrors({ username: 'signup.errorSignup' })
+      }
+    }
+    finally {
+      setSubmitting(false)
+    }
+  }
+
+  return (
+    <Container fluid className="d-flex flex-column h-100 bg-light">
+      <Header />
+      <Row className="justify-content-center align-items-center h-100">
+        <Col xs={12} md={8} xxl={6}>
+          <Card className="shadow-sm">
+            <Card.Body className="p-5">
+              <h1 className="text-center mb-4">{'signup.title'}</h1>
+              <Formik
+                initialValues={{
+                  username: '',
+                  password: '',
+                  confirmPassword: '',
+                }}
+                validationSchema={SignupSchema}
+                onSubmit={handleSubmit}
+              >
+                {({ errors, touched, isSubmitting }) => (
+                  <Form>
+                    <FloatingLabel
+                      controlId="username"
+                      label={'signup.username'}
+                      className="mb-3"
+                    >
+                      <Field
+                        as={RBForm.Control}
+                        name="username"
+                        placeholder={'signup.username'}
+                        isInvalid={touched.username && !!errors.username}
+                      />
+                      <RBForm.Control.Feedback type="invalid">
+                        {errors.username}
+                      </RBForm.Control.Feedback>
+                    </FloatingLabel>
+
+                    <FloatingLabel
+                      controlId="password"
+                      label={'signup.password'}
+                      className="mb-3"
+                    >
+                      <Field
+                        as={RBForm.Control}
+                        name="password"
+                        type="password"
+                        placeholder={'signup.password'}
+                        isInvalid={touched.password && !!errors.password}
+                      />
+                      <RBForm.Control.Feedback type="invalid">
+                        {errors.password}
+                      </RBForm.Control.Feedback>
+                    </FloatingLabel>
+
+                    <FloatingLabel
+                      controlId="confirmPassword"
+                      label={'signup.confirmPassword'}
+                      className="mb-4"
+                    >
+                      <Field
+                        as={RBForm.Control}
+                        name="confirmPassword"
+                        type="password"
+                        placeholder={'signup.confirmPassword'}
+                        isInvalid={
+                          touched.confirmPassword && !!errors.confirmPassword
+                        }
+                      />
+                      <RBForm.Control.Feedback type="invalid">
+                        {errors.confirmPassword}
+                      </RBForm.Control.Feedback>
+                    </FloatingLabel>
+
+                    <Button
+                      type="submit"
+                      variant="primary"
+                      className="w-100"
+                      disabled={isSubmitting}
+                    >
+                      {'signup.button'}
+                    </Button>
+                  </Form>
+                )}
+              </Formik>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
+  )
+}
+
+export default SignupPage
