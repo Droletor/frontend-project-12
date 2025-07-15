@@ -18,6 +18,7 @@ import {
 } from '../store/channelsSlice.js'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
+import leoProfanity from 'leo-profanity'
 
 const AddChannelModal = ({ show, handleClose }) => {
   const { t } = useTranslation()
@@ -48,11 +49,12 @@ const AddChannelModal = ({ show, handleClose }) => {
     { setSubmitting, setErrors },
   ) => {
     try {
+      const sanitizedName = leoProfanity.clean(name)
       const headers = getAuthHeader()
 
       const { data } = await axios.post(
         apiRoutes.channelsPath(),
-        { name },
+        { name: sanitizedName },
         { headers },
       )
 

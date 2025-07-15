@@ -7,6 +7,7 @@ import {
 } from '../store/channelsSlice.js'
 import { selectCurrentChannelMessages } from '../store/messagesSlice.js'
 import { useTranslation } from 'react-i18next'
+import leoProfanity from 'leo-profanity'
 
 import sendIcon from '../assets/send.svg'
 
@@ -24,9 +25,11 @@ const Messages = () => {
     const trimmed = newMessage.trim()
     if (!trimmed) return
 
+    const sanitized = leoProfanity.clean(trimmed)
+
     const payload = {
       channelId: currentChannelId,
-      body: trimmed,
+      body: sanitized,
       username,
     }
 

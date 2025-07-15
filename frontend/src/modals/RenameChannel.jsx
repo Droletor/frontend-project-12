@@ -10,6 +10,7 @@ import apiRoutes, { getAuthHeader } from '../services/route.js'
 import { channelsActions, selectAllChannels } from '../store/channelsSlice.js'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
+import leoProfanity from 'leo-profanity'
 
 const RenameChannelModal = ({ show, handleClose, channel }) => {
   const { t } = useTranslation()
@@ -42,11 +43,12 @@ const RenameChannelModal = ({ show, handleClose, channel }) => {
 
   const handleSubmit = async ({ name }, { setSubmitting, setErrors }) => {
     try {
+      const sanitizedName = leoProfanity.clean(name)
       const headers = getAuthHeader()
 
       const { data } = await axios.patch(
         apiRoutes.channelPath(channel.id),
-        { name },
+        { name: sanitizedName },
         { headers },
       )
 
