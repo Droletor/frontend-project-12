@@ -17,9 +17,11 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import apiRoutes from '../services/route.js'
 import Header from '../components/Header.jsx'
+import { useTranslation } from 'react-i18next'
 
 const LoginPage = () => {
-  const [loginError] = useState(null)
+  const { t } = useTranslation()
+  const [loginError, setLoginError] = useState(null)
   const { login, isAuth } = useAuth()
   const navigate = useNavigate()
 
@@ -31,11 +33,11 @@ const LoginPage = () => {
 
   const LoginSchema = Yup.object().shape({
     username: Yup.string()
-      .min(3, 'login.errors.min3')
-      .required('login.errors.required'),
+      .min(3, t('login.errors.min3'))
+      .required(t('login.errors.required')),
     password: Yup.string()
-      .min(3, 'login.errors.min3')
-      .required('login.errors.required'),
+      .min(3, t('login.errors.min3'))
+      .required(t('login.errors.required')),
   })
 
   const handleSubmit = async ({ username, password }, { setSubmitting, setErrors }) => {
@@ -47,10 +49,10 @@ const LoginPage = () => {
     }
     catch (error) {
       if (error.response?.status === 401) {
-        setErrors({ username: 'login.errorInvalid' })
+        setErrors({ username: t('login.errorInvalid') })
       }
       else {
-        setErrors({ username: 'notifications.networkError' })
+        setErrors({ username: t('notifications.networkError') })
       }
       setLoginError(error.message)
     }
@@ -73,11 +75,11 @@ const LoginPage = () => {
                 <Image
                   src="https://frontend-chat-ru.hexlet.app/assets/avatar-DIE1AEpS.jpg"
                   roundedCircle
-                  alt={'login.title'}
+                  alt={t('login.title')}
                 />
               </Col>
               <Col md={6} className="mt-3 mt-md-0">
-                <h1 className="text-center mb-4">{'login.title'}</h1>
+                <h1 className="text-center mb-4">{t('login.title')}</h1>
 
                 {loginError && (
                   <div style={{ color: 'red' }} className="mb-3">
@@ -94,14 +96,14 @@ const LoginPage = () => {
                     <Form>
                       <FloatingLabel
                         controlId="username"
-                        label={'login.placeholder.username'}
+                        label={t('login.placeholder.username')}
                         className="mb-3"
                       >
                         <Field
                           as={RBForm.Control}
                           type="text"
                           name="username"
-                          placeholder={'login.placeholder.username'}
+                          placeholder={t('login.placeholder.username')}
                           isInvalid={touched.username && !!errors.username}
                         />
                         <RBForm.Control.Feedback type="invalid">
@@ -111,14 +113,14 @@ const LoginPage = () => {
 
                       <FloatingLabel
                         controlId="password"
-                        label={'login.placeholder.password'}
+                        label={t('login.placeholder.password')}
                         className="mb-4"
                       >
                         <Field
                           as={RBForm.Control}
                           type="password"
                           name="password"
-                          placeholder={'login.placeholder.password'}
+                          placeholder={t('login.placeholder.password')}
                           isInvalid={touched.password && !!errors.password}
                         />
                         <RBForm.Control.Feedback type="invalid">
@@ -132,7 +134,7 @@ const LoginPage = () => {
                         className="w-100 mb-3"
                         disabled={isSubmitting}
                       >
-                        {'login.button'}
+                        {t('login.button')}
                       </Button>
                     </Form>
                   )}
@@ -141,9 +143,9 @@ const LoginPage = () => {
             </Card.Body>
             <Card.Footer className="p-4">
               <div className="text-center">
-                <span>{'login.noAccount'}</span>
+                <span>{t('login.noAccount')}</span>
                 {' '}
-                <Card.Link href={routes.signup}>{'login.signupLink'}</Card.Link>
+                <Card.Link href={routes.signup}>{t('login.signupLink')}</Card.Link>
               </div>
             </Card.Footer>
           </Card>

@@ -16,8 +16,10 @@ import {
   channelsActions,
   selectAllChannels,
 } from '../store/channelsSlice.js'
+import { useTranslation } from 'react-i18next'
 
 const AddChannelModal = ({ show, handleClose }) => {
+  const { t } = useTranslation()
   const dispatch = useDispatch()
   const channels = useSelector(selectAllChannels)
   const channelNames = channels.map(ch => ch.name)
@@ -31,12 +33,12 @@ const AddChannelModal = ({ show, handleClose }) => {
 
   const validationSchema = Yup.object({
     name: Yup.string()
-      .min(3, 'signup.errors.min3')
-      .max(20, 'signup.errors.max20')
-      .required('signup.errors.required')
+      .min(3, t('signup.errors.min3'))
+      .max(20, t('signup.errors.max20'))
+      .required(t('signup.errors.required'))
       .notOneOf(
         channelNames,
-        'renameChannel.errors.nameExists',
+        t('renameChannel.errors.nameExists'),
       ),
   })
 
@@ -56,11 +58,11 @@ const AddChannelModal = ({ show, handleClose }) => {
       dispatch(channelsActions.addChannel(data))
       dispatch(channelsActions.changeChannel(data.id))
 
-      console.log('notifications.channelCreated')
+      console.log(t('notifications.channelCreated'))
       handleClose()
     }
     catch (err) {
-      setErrors({ name: 'addChannel.error' })
+      setErrors({ name: t('addChannel.error') })
       console.error(err)
     }
     finally {
@@ -71,7 +73,7 @@ const AddChannelModal = ({ show, handleClose }) => {
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title>{'addChannel.title'}</Modal.Title>
+        <Modal.Title>{t('addChannel.title')}</Modal.Title>
       </Modal.Header>
 
       <Formik
@@ -84,13 +86,13 @@ const AddChannelModal = ({ show, handleClose }) => {
             <Modal.Body>
               <Form.Group controlId="channelName">
                 <Form.Label className="visually-hidden">
-                  {'addChannel.placeholder'}
+                  {t('addChannel.placeholder')}
                 </Form.Label>
                 <Field
                   as={Form.Control}
                   name="name"
                   type="text"
-                  placeholder={'addChannel.placeholder'}
+                  placeholder={t('addChannel.placeholder')}
                   ref={inputRef}
                 />
                 <div className="invalid-feedback d-block">
@@ -105,14 +107,14 @@ const AddChannelModal = ({ show, handleClose }) => {
                 onClick={handleClose}
                 disabled={isSubmitting}
               >
-                {'modal.cancel'}
+                {t('modal.cancel')}
               </Button>
               <Button
                 variant="primary"
                 type="submit"
                 disabled={isSubmitting}
               >
-                {'modal.submit'}
+                {t('modal.submit')}
               </Button>
             </Modal.Footer>
           </Form>

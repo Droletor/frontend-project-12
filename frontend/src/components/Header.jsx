@@ -2,8 +2,10 @@ import { Button, Container, Navbar } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import routes from '../services/clientRoutes.js'
 import { useAuth } from '../AuthContext.jsx'
+import { useTranslation } from 'react-i18next'
 
 const Header = () => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { isAuth, logout } = useAuth()
 
@@ -16,11 +18,11 @@ const Header = () => {
     <Navbar bg="white" variant="light" expand="lg" className="shadow-sm">
       <Container>
         <Navbar.Brand as={Link} to={routes.root}>
-          {'header.brand'}
+          {t('header.brand')}
         </Navbar.Brand>
         {isAuth && (
           <Button variant="primary" onClick={handleLogout}>
-            {'header.logout'}
+            {t('header.logout')}
           </Button>
         )}
       </Container>

@@ -8,8 +8,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import * as Yup from 'yup'
 import apiRoutes, { getAuthHeader } from '../services/route.js'
 import { channelsActions, selectAllChannels } from '../store/channelsSlice.js'
+import { useTranslation } from 'react-i18next'
 
 const RenameChannelModal = ({ show, handleClose, channel }) => {
+  const { t } = useTranslation()
   const dispatch = useDispatch()
   const channels = useSelector(selectAllChannels)
 
@@ -31,10 +33,10 @@ const RenameChannelModal = ({ show, handleClose, channel }) => {
 
   const validationSchema = Yup.object({
     name: Yup.string()
-      .min(3, 'renameChannel.errors.min3')
-      .max(20, 'renameChannel.errors.max20')
-      .required('renameChannel.errors.required')
-      .notOneOf(channelNames, 'renameChannel.errors.nameExists'),
+      .min(3, t('renameChannel.errors.min3'))
+      .max(20, t('renameChannel.errors.max20'))
+      .required(t('renameChannel.errors.required'))
+      .notOneOf(channelNames, t('renameChannel.errors.nameExists')),
   })
 
   const handleSubmit = async ({ name }, { setSubmitting, setErrors }) => {
@@ -54,11 +56,11 @@ const RenameChannelModal = ({ show, handleClose, channel }) => {
         }),
       )
 
-      console.log('notifications.channelRenamed')
+      console.log(t('notifications.channelRenamed'))
       handleClose()
     }
     catch (err) {
-      setErrors({ name: 'renameChannel.error' })
+      setErrors({ name: t('renameChannel.error') })
       console.error(err)
     }
     finally {
@@ -69,7 +71,7 @@ const RenameChannelModal = ({ show, handleClose, channel }) => {
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title>{'renameChannel.title'}</Modal.Title>
+        <Modal.Title>{t('renameChannel.title')}</Modal.Title>
       </Modal.Header>
 
       <Formik
@@ -82,13 +84,13 @@ const RenameChannelModal = ({ show, handleClose, channel }) => {
             <Modal.Body>
               <Form.Group controlId="channelName">
                 <Form.Label className="visually-hidden">
-                  {'renameChannel.placeholder'}
+                  {t('renameChannel.placeholder')}
                 </Form.Label>
                 <Field
                   as={Form.Control}
                   name="name"
                   type="text"
-                  placeholder={'renameChannel.placeholder'}
+                  placeholder={t('renameChannel.placeholder')}
                   innerRef={inputRef}
                 />
                 <div className="invalid-feedback d-block">
@@ -103,10 +105,10 @@ const RenameChannelModal = ({ show, handleClose, channel }) => {
                 onClick={handleClose}
                 disabled={isSubmitting}
               >
-                {'modal.cancel'}
+                {t('modal.cancel')}
               </Button>
               <Button variant="primary" type="submit" disabled={isSubmitting}>
-                {'modal.save'}
+                {t('modal.save')}
               </Button>
             </Modal.Footer>
           </Form>

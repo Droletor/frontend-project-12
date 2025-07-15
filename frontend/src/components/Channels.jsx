@@ -3,10 +3,12 @@ import { Dropdown, ButtonGroup } from 'react-bootstrap'
 
 import { channelsActions, selectAllChannels, selectCurrentChannelId } from '../store/channelsSlice.js'
 import { showAddModal, showRenameModal, showRemoveModal } from '../store/modalsSlice.js'
+import { useTranslation } from 'react-i18next'
 
 import addIcon from '../assets/add.svg'
 
 const Channels = () => {
+  const { t } = useTranslation()
   const dispatch = useDispatch()
 
   const channels = useSelector(selectAllChannels)
@@ -19,7 +21,7 @@ const Channels = () => {
   return (
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
-        <b>{'chat.channelsTitle'}</b>
+        <b>{t('chat.channelsTitle')}</b>
         <button
           type="button"
           className="p-0 text-primary btn btn-group-vertical"
@@ -52,14 +54,14 @@ const Channels = () => {
                       variant={channel.id === currentChannelId ? 'secondary' : 'light'}
                       id={`dropdown-${channel.id}`}
                     >
-                      <span className="visually-hidden">{'chat.channelManagement'}</span>
+                      <span className="visually-hidden">{t('chat.channelManagement')}</span>
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                       <Dropdown.Item onClick={() => dispatch(showRenameModal(channel))}>
-                        {'chat.renameChannel'}
+                        {t('chat.renameChannel')}
                       </Dropdown.Item>
                       <Dropdown.Item onClick={() => dispatch(showRemoveModal(channel))}>
-                        {'chat.removeChannel'}
+                        {t('chat.removeChannel')}
                       </Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>

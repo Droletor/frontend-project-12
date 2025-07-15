@@ -6,10 +6,12 @@ import {
   selectCurrentChannelId,
 } from '../store/channelsSlice.js'
 import { selectCurrentChannelMessages } from '../store/messagesSlice.js'
+import { useTranslation } from 'react-i18next'
 
 import sendIcon from '../assets/send.svg'
 
 const Messages = () => {
+  const { t } = useTranslation()
   const [newMessage, setNewMessage] = useState('')
 
   const messages = useSelector(selectCurrentChannelMessages)
@@ -41,7 +43,7 @@ const Messages = () => {
       setNewMessage('')
     }
     catch (err) {
-      console.error('chat.sendError', err)
+      console.error(t('chat.sendError'), err)
     }
   }
 
@@ -77,8 +79,8 @@ const Messages = () => {
             <div className="input-group has-validation">
               <input
                 name="body"
-                aria-label={'chat.form.ariaLabel'}
-                placeholder={'chat.form.placeholder'}
+                aria-label={t('chat.form.ariaLabel')}
+                placeholder={t('chat.form.placeholder')}
                 className="border-0 p-0 ps-2 form-control"
                 value={newMessage}
                 onChange={e => setNewMessage(e.target.value)}
@@ -89,7 +91,7 @@ const Messages = () => {
                 className="btn btn-group-vertical"
               >
                 <img src={sendIcon} alt="Send" width={20} height={20} />
-                <span className="visually-hidden">{'chat.form.send'}</span>
+                <span className="visually-hidden">{t('chat.form.send')}</span>
               </button>
             </div>
           </form>

@@ -15,22 +15,24 @@ import apiRoutes from '../services/route.js'
 import { useAuth } from '../AuthContext.jsx'
 import routes from '../services/clientRoutes.js'
 import Header from '../components/Header.jsx'
+import { useTranslation } from 'react-i18next'
 
 const SignupPage = () => {
+  const { t } = useTranslation()
   const { login } = useAuth()
   const navigate = useNavigate()
 
   const SignupSchema = Yup.object().shape({
     username: Yup.string()
-      .min(3, 'signup.errors.min3')
-      .max(20, 'signup.errors.max20')
-      .required('signup.errors.required'),
+      .min(3, t('signup.errors.min3'))
+      .max(20, t('signup.errors.max20'))
+      .required(t('signup.errors.required')),
     password: Yup.string()
-      .min(6, 'signup.errors.min6')
-      .required('signup.errors.required'),
+      .min(6, t('signup.errors.min6'))
+      .required(t('signup.errors.required')),
     confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password'), null], 'signup.errors.passwordsNotMatch')
-      .required('signup.errors.required'),
+      .oneOf([Yup.ref('password'), null], t('signup.errors.passwordsNotMatch'))
+      .required(t('signup.errors.required')),
   })
 
   const handleSubmit = async (
@@ -48,10 +50,10 @@ const SignupPage = () => {
     }
     catch (error) {
       if (error.response?.status === 409) {
-        setErrors({ username: 'signup.errors.userExists' })
+        setErrors({ username: t('signup.errors.userExists') })
       }
       else {
-        setErrors({ username: 'signup.errorSignup' })
+        setErrors({ username: t('signup.errorSignup') })
       }
     }
     finally {
@@ -66,7 +68,7 @@ const SignupPage = () => {
         <Col xs={12} md={8} xxl={6}>
           <Card className="shadow-sm">
             <Card.Body className="p-5">
-              <h1 className="text-center mb-4">{'signup.title'}</h1>
+              <h1 className="text-center mb-4">{t('signup.title')}</h1>
               <Formik
                 initialValues={{
                   username: '',
@@ -80,13 +82,13 @@ const SignupPage = () => {
                   <Form>
                     <FloatingLabel
                       controlId="username"
-                      label={'signup.username'}
+                      label={t('signup.username')}
                       className="mb-3"
                     >
                       <Field
                         as={RBForm.Control}
                         name="username"
-                        placeholder={'signup.username'}
+                        placeholder={t('signup.username')}
                         isInvalid={touched.username && !!errors.username}
                       />
                       <RBForm.Control.Feedback type="invalid">
@@ -96,14 +98,14 @@ const SignupPage = () => {
 
                     <FloatingLabel
                       controlId="password"
-                      label={'signup.password'}
+                      label={t('signup.password')}
                       className="mb-3"
                     >
                       <Field
                         as={RBForm.Control}
                         name="password"
                         type="password"
-                        placeholder={'signup.password'}
+                        placeholder={t('signup.password')}
                         isInvalid={touched.password && !!errors.password}
                       />
                       <RBForm.Control.Feedback type="invalid">
@@ -113,14 +115,14 @@ const SignupPage = () => {
 
                     <FloatingLabel
                       controlId="confirmPassword"
-                      label={'signup.confirmPassword'}
+                      label={t('signup.confirmPassword')}
                       className="mb-4"
                     >
                       <Field
                         as={RBForm.Control}
                         name="confirmPassword"
                         type="password"
-                        placeholder={'signup.confirmPassword'}
+                        placeholder={t('signup.confirmPassword')}
                         isInvalid={
                           touched.confirmPassword && !!errors.confirmPassword
                         }
@@ -136,7 +138,7 @@ const SignupPage = () => {
                       className="w-100"
                       disabled={isSubmitting}
                     >
-                      {'signup.button'}
+                      {t('signup.button')}
                     </Button>
                   </Form>
                 )}
