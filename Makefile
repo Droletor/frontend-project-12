@@ -8,6 +8,9 @@ lint:
 test:
 	npm test
 
+test-playwright:
+	npm --prefix ./frontend test
+
 test-coverage:
 	npm test -- --coverage --coverageProvider=v8
 
