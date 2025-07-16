@@ -73,11 +73,11 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'npx start-server -s ./frontend/dist',
-    url: 'http://localhost:5001',
+    command: 'npx start-server -s ./dist',
+    url: 'http://127.0.0.1:5001',
     reuseExistingServer: false,
   },
   use: {
-    baseURL: 'http://localhost:5001',
+    baseURL: 'http://127.0.0.1:5001',
   },
 });
