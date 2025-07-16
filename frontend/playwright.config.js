@@ -1,8 +1,6 @@
 /* eslint-disable @stylistic/semi */
 import { defineConfig, devices } from '@playwright/test';
 
-const port = process.env.CI ? 4173 : 3000;
-
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -75,8 +73,8 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'npx start-server -s ./dist',
-    url: 'http://localhost:' + port,
+    command: 'npx start-server -s ./frontend/dist',
+    url: 'http://localhost:5001',
     reuseExistingServer: false,
   },
   use: {
