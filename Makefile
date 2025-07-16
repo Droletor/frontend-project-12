@@ -19,3 +19,6 @@ build:
 
 start:
 	npx start-server -s ./frontend/dist
+
+start-frontend:
+	npm --prefix ./frontend run dev
