@@ -1,4 +1,4 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test'
 
 /**
  * Read environment variables from file.
@@ -83,4 +83,4 @@ export default defineConfig({
     baseURL: 'http://localhost:5002',
     trace: 'on-first-retry',
   },
-});
+})

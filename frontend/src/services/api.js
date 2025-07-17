@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { toast } from 'react-toastify';
+import axios from 'axios'
+import { toast } from 'react-toastify'
 
 const handlers = {
   logout: null,
@@ -7,11 +7,11 @@ const handlers = {
 };
 
 export const setLogoutHandler = (logoutFn) => {
-  handlers.logout = logoutFn;
+  handlers.logout = logoutFn
 };
 
 export const setNavigateHandler = (navigateFn) => {
-  handlers.navigate = navigateFn;
+  handlers.navigate = navigateFn
 };
 
 const api = axios.create({
@@ -21,14 +21,14 @@ const api = axios.create({
 
 api.interceptors.response.use(
   response => response,
-  error => {
+  (error) => {
     if (error.response?.status === 401) {
-      toast.error('Unauthorized. Redirecting...', { toastId: 'unauthorized-error', })
-      if (handlers.logout) handlers.logout();
-      if (handlers.navigate) handlers.navigate('/login');
+      toast.error('Unauthorized. Redirecting...', { toastId: 'unauthorized-error' })
+      if (handlers.logout) handlers.logout()
+      if (handlers.navigate) handlers.navigate('/login')
     }
     return Promise.reject(error)
-  }
-);
+  },
+)
 
-export default api;
+export default api

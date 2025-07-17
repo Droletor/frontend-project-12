@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 const Page404 = () => {
   const { t } = useTranslation()
 
-  return  (
+  return (
     <Container fluid className="d-flex flex-column h-100">
       <Header />
       <Container className="h-100 d-flex flex-column justify-content-center align-items-center">

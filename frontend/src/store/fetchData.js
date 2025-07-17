@@ -1,4 +1,4 @@
-import api from '../services/api.js';
+import api from '../services/api.js'
 import apiRoutes from '../services/route.js'
 import { channelsActions } from './channelsSlice.js'
 import { messagesActions } from './messagesSlice.js'
@@ -10,7 +10,7 @@ export const fetchChannels = headers => async (dispatch) => {
     dispatch(channelsActions.setChannels(data))
   }
   catch {
-    toast.error('notifications.fetchError', { toastId: 'fetch-error', })
+    toast.error('notifications.fetchError', { toastId: 'fetch-error' })
   }
 }
 
@@ -20,6 +20,6 @@ export const fetchMessages = headers => async (dispatch) => {
     dispatch(messagesActions.setMessages(data))
   }
   catch {
-    toast.error('notifications.fetchError', { toastId: 'fetch-error', })
+    toast.error('notifications.fetchError', { toastId: 'fetch-error' })
   }
 }

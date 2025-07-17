@@ -10,8 +10,8 @@ import { AuthProvider } from './AuthContext.jsx'
 import { Provider } from 'react-redux'
 import store from './store/store.js'
 import { ToastContainer } from 'react-toastify'
-import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
-import rollbarConfig from './services/rollbar.conf.js';
+import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react'
+import rollbarConfig from './services/rollbar.conf.js'
 
 const App = ({ socket }) => (
   <RollbarProvider config={rollbarConfig}>

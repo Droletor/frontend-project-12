@@ -16,27 +16,27 @@ test.beforeEach(async ({ page }) => {
 })
 
 test.describe('registration', () => {
-  test.describe.configure({ mode: 'serial' });
+  test.describe.configure({ mode: 'serial' })
   test('handle new user creation', async ({ page, browserName }) => {
-    await page.getByRole('link', { name: 'Регистрация' }).click();
+    await page.getByRole('link', { name: 'Регистрация' }).click()
     await page.waitForURL('**/signup')
     await page.getByRole('textbox', { name: 'Имя пользователя' }).fill(newUser.login + browserName)
     await page.getByRole('textbox', { name: 'Пароль', exact: true }).fill(newUser.password + browserName)
     await page.getByRole('textbox', { name: 'Подтвердите пароль' }).fill(newUser.password + browserName)
-    await page.getByRole('button', { name: 'Зарегистрироваться' }).click();
+    await page.getByRole('button', { name: 'Зарегистрироваться' }).click()
     await page.waitForURL('**/')
-    await expect(page.getByRole('textbox', { name: 'Новое сообщение' })).toBeVisible();
+    await expect(page.getByRole('textbox', { name: 'Новое сообщение' })).toBeVisible()
   })
 
   test('no duplicated users created', async ({ page, browserName }) => {
-    await page.getByRole('link', { name: 'Регистрация' }).click();
+    await page.getByRole('link', { name: 'Регистрация' }).click()
     await page.waitForURL('**/signup')
     await page.getByRole('textbox', { name: 'Имя пользователя' }).fill(newUser.login + browserName)
     await page.getByRole('textbox', { name: 'Пароль', exact: true }).fill(newUser.password + browserName)
     await page.getByRole('textbox', { name: 'Подтвердите пароль' }).fill(newUser.password + browserName)
-    await page.getByRole('button', { name: 'Зарегистрироваться' }).click();
+    await page.getByRole('button', { name: 'Зарегистрироваться' }).click()
     await page.waitForURL('**/')
-    await expect(page.getByText('Такой пользователь уже существует')).toBeVisible();
+    await expect(page.getByText('Такой пользователь уже существует')).toBeVisible()
   })
 
   test('handle validation', async ({ page }) => {
@@ -67,29 +67,29 @@ test.describe('auth', () => {
   })
 
   test('handle login error', async ({ page }) => {
-    await page.getByRole('textbox', { name: 'Ваш ник' }).click();
-    await page.getByRole('textbox', { name: 'Ваш ник' }).fill('imnotregistered');
-    await page.getByRole('textbox', { name: 'Пароль' }).click();
-    await page.getByRole('textbox', { name: 'Пароль' }).fill('idonthaveapasswordyet');
-    await page.getByRole('button', { name: 'Войти' }).click();
-    await expect(page.getByText('Неверные имя пользователя или пароль')).toBeVisible();
+    await page.getByRole('textbox', { name: 'Ваш ник' }).click()
+    await page.getByRole('textbox', { name: 'Ваш ник' }).fill('imnotregistered')
+    await page.getByRole('textbox', { name: 'Пароль' }).click()
+    await page.getByRole('textbox', { name: 'Пароль' }).fill('idonthaveapasswordyet')
+    await page.getByRole('button', { name: 'Войти' }).click()
+    await expect(page.getByText('Неверные имя пользователя или пароль')).toBeVisible()
   })
 })
 
 test.describe('chat', () => {
-  test.describe.configure({ mode: 'serial' });
+  test.describe.configure({ mode: 'serial' })
   test.beforeEach(async ({ page }) => {
     await page.getByRole('textbox', { name: 'Ваш ник' }).first().type(registeredUser.login)
     await page.getByRole('textbox', { name: 'Пароль' }).first().type(registeredUser.password)
-    await page.getByRole('button', { name: 'Войти' }).click();
+    await page.getByRole('button', { name: 'Войти' }).click()
     await page.getByRole('textbox', { name: 'Новое сообщение' })
   })
 
   test('messaging', async ({ page }) => {
-    await page.getByRole('textbox', { name: 'Новое сообщение' }).click();
-    await page.getByRole('textbox', { name: 'Новое сообщение' }).fill('test');
-    await page.getByRole('textbox', { name: 'Новое сообщение' }).press('Enter');
-    await expect(page.locator('#messages-box')).toContainText('admin: test');
+    await page.getByRole('textbox', { name: 'Новое сообщение' }).click()
+    await page.getByRole('textbox', { name: 'Новое сообщение' }).fill('test')
+    await page.getByRole('textbox', { name: 'Новое сообщение' }).press('Enter')
+    await expect(page.locator('#messages-box')).toContainText('admin: test')
   })
 
   test('different channels', async ({ page }) => {
@@ -115,11 +115,11 @@ test.describe('chat', () => {
 
   test('adding channel', async ({ page, browserName }) => {
     await page.locator('text=+').first().click()
-    await page.getByRole('textbox', { name: 'Имя канала' }).fill('test channel' + browserName);
-    await page.getByRole('button', { name: 'Отправить', exact: true }).click();
+    await page.getByRole('textbox', { name: 'Имя канала' }).fill('test channel' + browserName)
+    await page.getByRole('button', { name: 'Отправить', exact: true }).click()
 
-    await expect(page.getByText('Канал создан')).toBeVisible();
-    await expect(page.locator('#channels-box')).toContainText('#test channel' + browserName);
+    await expect(page.getByText('Канал создан')).toBeVisible()
+    await expect(page.locator('#channels-box')).toContainText('#test channel' + browserName)
 
     await page.locator('text=+').first().click()
     await page.getByLabel('Имя канала').first().type('test long channel name')
