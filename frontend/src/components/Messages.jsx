@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { useAuth } from '../AuthContext.jsx'
 import {
@@ -20,10 +20,10 @@ const Messages = () => {
   const currentChannelId = useSelector(selectCurrentChannelId)
   const { token, user: username } = useAuth()
 
-  const bottomRef = useRef(null);
+  const bottomRef = useRef(null)
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'auto' });
+    bottomRef.current?.scrollIntoView({ behavior: 'auto' })
   }, [messages])
 
   const handleSubmit = async (e) => {
