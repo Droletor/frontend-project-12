@@ -1,16 +1,21 @@
 /* eslint-disable react-refresh/only-export-components */
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   createContext,
   useContext,
   useState,
   useMemo,
+  useEffect,
 } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { setLogoutHandler, setNavigateHandler } from './services/api'
 
 const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(() => localStorage.getItem('token'))
   const [user, setUser] = useState(() => localStorage.getItem('user'))
+  const navigate = useNavigate()
 
   const login = (newToken, username) => {
     localStorage.setItem('token', newToken)
@@ -25,6 +30,11 @@ export const AuthProvider = ({ children }) => {
     setToken(null)
     setUser(null)
   }
+
+  useEffect(() => {
+    setLogoutHandler(logout)
+    setNavigateHandler(navigate)
+  }, [])
 
   const isAuth = Boolean(token)
 

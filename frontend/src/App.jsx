@@ -1,5 +1,5 @@
-import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Container } from 'react-bootstrap'
 import Page404 from './pages/Page404.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
@@ -17,19 +17,21 @@ const App = ({ socket }) => (
   <RollbarProvider config={rollbarConfig}>
     <ErrorBoundary>
       <Provider store={store}>
-        <AuthProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route path={routes.notFound} element={<Page404 />} />
-              <Route path={routes.login} element={<LoginPage />} />
-              <Route path={routes.signup} element={<SignupPage />} />
-              <Route element={<ProtectedRoute />}>
-                <Route path={routes.root} element={<ChatPage socket={socket} />} />
-              </Route>
-            </Routes>
-            <ToastContainer />
-          </BrowserRouter>
-        </AuthProvider>
+        <BrowserRouter>
+          <AuthProvider>
+            <Container fluid className="vh-100 overflow-hidden p-0 m-0">
+              <Routes>
+                <Route path={routes.notFound} element={<Page404 />} />
+                <Route path={routes.login} element={<LoginPage />} />
+                <Route path={routes.signup} element={<SignupPage />} />
+                <Route element={<ProtectedRoute />}>
+                  <Route path={routes.root} element={<ChatPage socket={socket} />} />
+                </Route>
+              </Routes>
+              <ToastContainer />
+            </Container>
+          </AuthProvider>
+        </BrowserRouter>
       </Provider>
     </ErrorBoundary>
   </RollbarProvider>

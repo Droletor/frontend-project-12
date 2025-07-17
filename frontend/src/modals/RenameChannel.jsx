@@ -93,8 +93,9 @@ const RenameChannelModal = ({ show, handleClose, channel }) => {
                   as={Form.Control}
                   name="name"
                   type="text"
+                  autoComplete="off"
                   placeholder={t('renameChannel.placeholder')}
-                  innerRef={inputRef}
+                  innerref={inputRef}
                 />
                 <div className="invalid-feedback d-block">
                   <ErrorMessage name="name" />

@@ -62,7 +62,7 @@ const LoginPage = () => {
   }
 
   return (
-    <Container fluid className="d-flex flex-column h-100 bg-light">
+    <>
       <Header />
       <Row className="justify-content-center align-items-center h-100">
         <Col xs={12} md={8} xxl={6}>
@@ -151,7 +151,7 @@ const LoginPage = () => {
           </Card>
         </Col>
       </Row>
-    </Container>
+    </>
   )
 }
 

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { useAuth } from '../AuthContext.jsx'
 import {
@@ -19,6 +19,12 @@ const Messages = () => {
   const currentChannel = useSelector(selectCurrentChannel)
   const currentChannelId = useSelector(selectCurrentChannelId)
   const { token, user: username } = useAuth()
+
+  const bottomRef = useRef(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'auto' });
+  }, [messages])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -75,6 +81,7 @@ const Messages = () => {
               {msg.body}
             </div>
           ))}
+          <div ref={bottomRef} />
         </div>
 
         <div className="mt-auto px-5 py-3">
@@ -87,6 +94,7 @@ const Messages = () => {
                 className="border-0 p-0 ps-2 form-control"
                 value={newMessage}
                 onChange={e => setNewMessage(e.target.value)}
+                autoComplete="off"
               />
               <button
                 type="submit"

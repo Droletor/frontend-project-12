@@ -95,6 +95,7 @@ const AddChannelModal = ({ show, handleClose }) => {
                   as={Form.Control}
                   name="name"
                   type="text"
+                  autoComplete="off"
                   placeholder={t('addChannel.placeholder')}
                   ref={inputRef}
                 />
