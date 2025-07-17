@@ -4,20 +4,20 @@ import { toast } from 'react-toastify'
 const handlers = {
   logout: null,
   navigate: null,
-};
+}
 
 export const setLogoutHandler = (logoutFn) => {
   handlers.logout = logoutFn
-};
+}
 
 export const setNavigateHandler = (navigateFn) => {
   handlers.navigate = navigateFn
-};
+}
 
 const api = axios.create({
   baseURL: '/',
   withCredentials: true,
-});
+})
 
 api.interceptors.response.use(
   response => response,
